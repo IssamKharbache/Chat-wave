@@ -1,0 +1,7 @@
+.logo{
+    text-align: center;
+    font-family: var(--font-satisfy);
+    font-size: 50px;
+    color: rgb(221, 196, 231);
+    margin-top: 20px;
+}
