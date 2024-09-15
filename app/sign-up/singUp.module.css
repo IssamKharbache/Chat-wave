@@ -1,5 +1,6 @@
 .container {
 display: flex;
+flex-direction: column;
 align-items: center;
 justify-content: center;
 margin-top: 45px;
@@ -11,7 +12,14 @@ margin-top: 45px;
     background-color: white;
     border-radius: 15px;
     padding: 25px;
-    width: 250px;
+    width: 280px;
+}
+
+.form h1{
+    text-align: center; 
+    font-weight: 700;
+    font-size: 25px;
+    color:rgb(205, 155, 224) ;
 }
 
 
@@ -37,11 +45,24 @@ margin-top: 45px;
     border: none;
     background:rgb(221, 196, 231) ;
     border-radius: 15px;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 15px;
     cursor: pointer;
     transition-duration: 0.3s;
 }
 .button:hover{
     background: rgb(215, 181, 228);
+}
+
+.signIn{
+    display: flex;
+    font-size: 14px;
+    gap: 5px;
+}
+.signIn .link {
+    text-decoration: none;
+    color: rgb(215, 165, 235);
+}
+.signIn .link:hover{
+    text-decoration: underline;
 }
