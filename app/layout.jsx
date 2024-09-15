@@ -1,8 +1,7 @@
-import { Poppins, Satisfy } from "next/font/google";
+import { Satisfy } from "next/font/google";
 import "./globals.css";
 import StyledComponentRegistry from "@/lib/AntRegistry";
-import AuthProvider from "@/lib/SessionProvider";
-import { getServerSession } from "next-auth";
+import { Toaster } from "sonner";
 
 const satisfy = Satisfy({
   subsets: ["latin"],
@@ -20,7 +19,10 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${satisfy.variable}`}>
-        <StyledComponentRegistry>{children}</StyledComponentRegistry>
+        <StyledComponentRegistry>
+          <Toaster richColors position="top-center" />
+          {children}
+        </StyledComponentRegistry>
       </body>
     </html>
   );
