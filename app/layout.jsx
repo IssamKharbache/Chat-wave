@@ -2,6 +2,7 @@ import { Satisfy } from "next/font/google";
 import "./globals.css";
 import StyledComponentRegistry from "@/lib/AntRegistry";
 import { Toaster } from "sonner";
+import { AuthProvider } from "./Providers";
 
 const satisfy = Satisfy({
   subsets: ["latin"],
@@ -19,10 +20,12 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${satisfy.variable}`}>
-        <StyledComponentRegistry>
-          <Toaster richColors position="top-center" />
-          {children}
-        </StyledComponentRegistry>
+        <AuthProvider>
+          <StyledComponentRegistry>
+            <Toaster richColors position="top-center" />
+            {children}
+          </StyledComponentRegistry>
+        </AuthProvider>
       </body>
     </html>
   );

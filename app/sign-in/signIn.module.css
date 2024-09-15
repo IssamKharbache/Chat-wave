@@ -90,3 +90,28 @@
         background-color: rgb(220, 183, 235);
         
     }
+    .error{
+        background-color: rgb(230, 66, 66);
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+        padding: 5px;
+        font-size: 12px;
+    }
+    
+    
+.loading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: none;
+    background:rgb(221, 196, 231) ;
+    opacity: 70%;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    pointer-events: none;
+}

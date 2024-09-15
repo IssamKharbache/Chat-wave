@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/global/Loader";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
   //states to handle the form
@@ -13,6 +14,8 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  //router
+  const router = useRouter();
 
   //handle submit button
   const handleSubmit = async (e) => {
@@ -51,6 +54,7 @@ const SignUpPage = () => {
         setPassword("");
         setUsername("");
         toast.success("Account created successfully");
+        router.push("/sign-in");
       } else {
         setLoading(false);
       }
