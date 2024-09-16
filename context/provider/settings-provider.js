@@ -4,7 +4,10 @@ import { useState } from "react";
 import { SettingsContext } from "./settings-context";
 
 export const SettingsContextProvider = ({ children }) => {
-  const [settings, setSettings] = useState({ theme: "light" });
+  const [settings, setSettings] = useState({
+    theme: "light",
+    isSideBarOpen: false,
+  });
 
   return (
     <SettingsContext.Provider value={{ settings, setSettings }}>
