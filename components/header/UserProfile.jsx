@@ -1,12 +1,14 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const UserProfile = () => {
-  const { data: session } = useSession();
-  const image = session?.user?.image;
-  const name = session?.user?.name;
-  const email = session?.user?.email;
-  return <div>{email}</div>;
+  const session = useSession();
+  console.log(session);
+  return (
+    <div>
+      <button onClick={() => signOut()}>Sign out</button>
+    </div>
+  );
 };
 
 export default UserProfile;

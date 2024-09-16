@@ -7,6 +7,13 @@ import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 
 export const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/sign-in",
+  },
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -41,8 +48,13 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
+      const loggedInUser = {
+        username: user.name,
+        email: user.email,
+        userId: user._id,
+      };
       if (account?.provider == "credentials") {
-        return true;
+        return loggedInUser;
       }
       if (account?.provider == "google") {
         await connectToDb();
@@ -56,36 +68,32 @@ export const authOptions = {
               password: hashPassword,
             });
             await newUser.save();
-            return true;
+            return loggedInUser;
           }
-          return true;
+          return loggedInUser;
         } catch (error) {
           console.log("Error while saving user while OAuth", error);
         }
       }
     },
   },
-  async session({ session, token }) {
-    console.log(token);
-    //setting up session data from database
-    session.user.id = token.id;
-    session.user.name = token.username;
-    session.user.email = token.email;
-    return session;
-  },
-
-  async jwt({ token, user, account }) {
-    if (user) {
-      token.id = user.id;
-      token.username = user.name;
-      token.email = user.email;
-      token.provider = account.provider;
-    }
-    return token;
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/sign-in", //redirect to sign in page
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.username;
+        token.email = user.email;
+      }
+      return token;
+    },
   },
 };
 
