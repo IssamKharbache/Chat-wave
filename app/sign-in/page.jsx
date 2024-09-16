@@ -3,23 +3,28 @@ import Logo from "@/components/global/Logo";
 import styles from "./signIn.module.css";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 import Loader from "@/components/global/Loader";
 
 //sign in with google function
 const SignInPage = () => {
+  const router = useRouter();
   //states to handle the form
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  //get session
+  const session = useSession();
   //router
-
-  const router = useRouter();
-
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      redirect("/");
+    }
+  }, [session, router]);
   //handle submit function
   const handleSubmit = async (e) => {
     //set loading to true
@@ -38,11 +43,16 @@ const SignInPage = () => {
         password,
         redirect: false,
       });
+      if (res.url) {
+        router.replace("/");
+      }
       if (res.error) {
         setError("Email or password is incorrect");
         setLoading(false);
+      } else {
+        setLoading(false);
+        setError("");
       }
-      router.replace("/profile");
     } catch (error) {
       setLoading(false);
       console.log(error);

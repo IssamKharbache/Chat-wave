@@ -2,10 +2,11 @@
 import Logo from "@/components/global/Logo";
 import styles from "./singUp.module.css";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/global/Loader";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const SignUpPage = () => {
   //states to handle the form
@@ -16,7 +17,13 @@ const SignUpPage = () => {
   const [loading, setLoading] = useState(false);
   //router
   const router = useRouter();
-
+  //session
+  const session = useSession();
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      redirect("/");
+    }
+  }, [session, router]);
   //handle submit button
   const handleSubmit = async (e) => {
     //set loading to true
@@ -63,6 +70,7 @@ const SignUpPage = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className={styles.container}>
       <Logo />
