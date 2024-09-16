@@ -55,8 +55,7 @@ export const authOptions = {
       };
       if (account?.provider == "credentials") {
         return loggedInUser;
-      }
-      if (account?.provider == "google") {
+      } else {
         await connectToDb();
         try {
           const existingUser = await User.findOne({ email: user.email });
@@ -64,11 +63,11 @@ export const authOptions = {
           if (!existingUser) {
             const newUser = new User({
               email: user.email,
-              username: user.name,
               password: hashPassword,
+              username: user.name,
             });
             await newUser.save();
-            return loggedInUser;
+            return newUser;
           }
           return loggedInUser;
         } catch (error) {
@@ -76,20 +75,19 @@ export const authOptions = {
         }
       }
     },
-  },
-  callbacks: {
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
+        session.user.testName = token.name;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
-        token.name = user.username;
+        token.name = account.provider === "google" ? user.name : user.username;
         token.email = user.email;
       }
       return token;

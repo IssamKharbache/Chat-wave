@@ -1,12 +1,12 @@
-"use client";
-import { signOut, useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import DropDown from "./DropDown";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const UserProfile = () => {
-  const session = useSession();
-  console.log(session);
+const UserProfile = async () => {
+  const session = await getServerSession(authOptions);
   return (
     <div>
-      <button onClick={() => signOut()}>Sign out</button>
+      <DropDown session={session} />
     </div>
   );
 };

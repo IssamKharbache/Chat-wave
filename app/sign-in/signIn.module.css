@@ -9,7 +9,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        background-color: white;
+        background-color: rgb(205, 155, 224);
         border-radius: 15px;
         padding: 25px;
         width: 280px;
@@ -18,7 +18,7 @@
         text-align: center; 
         font-weight: 700;
         font-size: 25px;
-        color:rgb(205, 155, 224) ;
+        color:rgb(150, 77, 179) ;
     }
     
     
@@ -62,7 +62,7 @@
     }
     .signIn .link {
         text-decoration: none;
-        color: rgb(215, 165, 235);
+        color: rgb(122, 65, 145);
     }
     .signIn .link:hover{
         text-decoration: underline;
