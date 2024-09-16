@@ -80,7 +80,6 @@ export const authOptions = {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
-        session.user.testName = token.name;
       }
       return session;
     },

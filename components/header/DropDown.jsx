@@ -13,8 +13,6 @@ import { signOut } from "next-auth/react";
 
 const DropDown = ({ session }) => {
   const [isHovered, setIsHovered] = useState(false);
-  console.log(session);
-
   const handleHover = () => {
     setIsHovered(!isHovered);
   };
@@ -42,7 +40,7 @@ const DropDown = ({ session }) => {
           <IoClose onClick={handleHover} />
         </div>
         <div className={styles.content}>
-          <Link href="/profile">
+          <Link href={`/profile/${session?.user?.id}`}>
             <FaRegUser />
             <span>Profile</span>
           </Link>

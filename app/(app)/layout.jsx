@@ -16,6 +16,7 @@ const HomeLayout = ({ children }) => {
           <div className={styles.wraper}>
             {/* Header */}
             <Header />
+            {children}
           </div>
         </Box>
       </ThemeProvider>
