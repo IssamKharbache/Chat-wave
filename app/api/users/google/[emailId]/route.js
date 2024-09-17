@@ -2,17 +2,17 @@ import { connectToDb } from "@/lib/connectToDb";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
-export const POST = async (req, { params: { id } }) => {
+export const POST = async (req, { params: { emailId } }) => {
   try {
     await connectToDb();
     const { username, email } = await req.json();
-    const userExist = await User.findOne({ _id: id });
+    const userExist = await User.findOne({ email: emailId });
 
     if (!userExist) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
     }
     const updateUser = await User.findOneAndUpdate(
-      { _id: id },
+      { email: emailId },
       {
         username,
         email,
@@ -31,10 +31,10 @@ export const POST = async (req, { params: { id } }) => {
   }
 };
 
-export const GET = async (req, { params: { id } }) => {
+export const GET = async (req, { params: { emailId } }) => {
   try {
     await connectToDb();
-    const user = await User.findOne({ _id: id });
+    const user = await User.findOne({ email: emailId });
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
     }

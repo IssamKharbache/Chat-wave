@@ -4,9 +4,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const UserProfile = async () => {
   const session = await getServerSession(authOptions);
+  const provider = session?.user?.provider;
+
   return (
     <div>
-      <DropDown session={session} />
+      <DropDown session={session} provider={provider} />
     </div>
   );
 };

@@ -54,8 +54,9 @@ export const authOptions = {
         userId: user._id,
       };
       if (account?.provider == "credentials") {
-        return loggedInUser;
-      } else {
+        return true;
+      }
+      if (account?.provider == "google") {
         await connectToDb();
         try {
           const existingUser = await User.findOne({ email: user.email });
@@ -69,25 +70,28 @@ export const authOptions = {
             await newUser.save();
             return newUser;
           }
-          return loggedInUser;
+          return true;
         } catch (error) {
           console.log("Error while saving user while OAuth", error);
         }
       }
     },
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
+        session.user.provider = token.provider;
       }
       return session;
     },
     async jwt({ token, user, account }) {
       if (user) {
+        console.log("User:", user);
         token.id = user.id;
         token.name = account.provider === "google" ? user.name : user.username;
         token.email = user.email;
+        token.provider = account.provider;
       }
       return token;
     },

@@ -6,7 +6,6 @@ import EditProfileForm from "../EditProfileForm";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-  console.log(session);
 
   return <EditProfileForm session={session} />;
 };

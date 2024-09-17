@@ -1,6 +1,5 @@
 import { Flex } from "antd";
 import Box from "../box/Box";
-import Logo from "../global/Logo";
 import styles from "./styles/header.module.css";
 import ThemeToggle from "./ThemeToggle";
 import UserProfile from "./UserProfile";
@@ -15,7 +14,9 @@ const Header = async () => {
     <div className={styles.wrapper}>
       <Box style={{ height: "100%" }}>
         <div className={styles.container}>
-          <h1 className={styles.logo}>Chat wave</h1>
+          <Link href="/" className={styles.logo}>
+            Chat wave
+          </Link>
           <Flex gap={25} align="center">
             {/* Theme button */}
             <ThemeToggle />

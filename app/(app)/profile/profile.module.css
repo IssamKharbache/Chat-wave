@@ -109,3 +109,7 @@ margin-top: 25px;
         padding: 5px;
         font-size: 14px;
 }
+
+.loadingSpinner{
+    margin-top: 75px;
+}
