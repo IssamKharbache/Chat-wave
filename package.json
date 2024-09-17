@@ -12,6 +12,7 @@
     "@ant-design/cssinjs": "^1.18.0",
     "@ant-design/happy-work-theme": "^1.0.0",
     "@iconify/react": "^4.1.1",
+    "@prisma/client": "^5.7.0",
     "antd": "^5.20.6",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.5.1",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-next": "14.2.11"
+    "eslint-config-next": "14.2.11",
+    "prisma": "^5.7.1"
   }
 }

@@ -6,6 +6,7 @@ import UserProfile from "./UserProfile";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
+import SideBarButton from "../side-bar/SideBarButton";
 
 const Header = async () => {
   const session = await getServerSession(authOptions);
@@ -14,6 +15,11 @@ const Header = async () => {
     <div className={styles.wrapper}>
       <Box style={{ height: "100%" }}>
         <div className={styles.container}>
+          {/* open side bar responsinve button */}
+          <div className={styles.sidebarButton}>
+            <SideBarButton />
+          </div>
+          {/* logo */}
           <Link href="/" className={styles.logo}>
             Chat wave
           </Link>

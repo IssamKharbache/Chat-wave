@@ -12,6 +12,7 @@ z-index: 999;
     padding: 1rem 2rem;
 }
 .logo{
+    display: flex;
     all: unset;
     font-size: 30px;
     font-family:var(--font-satisfy);
@@ -33,4 +34,18 @@ z-index: 999;
 .signinBtn:hover{
     background-color: rgb(119, 24, 156);
     color: white;
+}
+
+.sidebarButton{
+    display: none;
+  
+}
+
+@media (max-width:1268px) {
+    .sidebarButton{
+        display: block;
+    }
+    .logo{
+        display: none;
+    }
 }
