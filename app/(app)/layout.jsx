@@ -4,6 +4,7 @@ import ThemeProvider from "@/lib/themeProvider";
 import React from "react";
 import styles from "@/styles/homeLayout.module.css";
 import Header from "@/components/header/Header";
+import SideBar from "@/components/side-bar/SideBar";
 
 const HomeLayout = ({ children }) => {
   return (
@@ -13,10 +14,14 @@ const HomeLayout = ({ children }) => {
           style={{ position: "relative", width: "100vw", height: "100vh" }}
           type="baseBg"
         >
-          <div className={styles.wraper}>
+          <div className={styles.wrapper}>
             {/* Header */}
             <Header />
-            {children}
+            <div className={styles.container}>
+              <SideBar />
+
+              <div className={styles.body}>{children}</div>
+            </div>
           </div>
         </Box>
       </ThemeProvider>
