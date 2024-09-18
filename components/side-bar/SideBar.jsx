@@ -5,7 +5,6 @@ import styles from "./side-bar.module.css";
 import Link from "next/link";
 import { Typography } from "antd";
 import { Icon } from "@iconify/react";
-import SignOutBtn from "../global/SignOutBtn";
 import "@/styles/typography.css";
 import { usePathname } from "next/navigation";
 import cx from "classnames";
@@ -61,7 +60,6 @@ const SideBar = () => {
               </Link>
             );
           })}
-          <SignOutBtn />
         </Box>
       </div>
     </SidebarContainer>

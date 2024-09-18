@@ -2,7 +2,7 @@ import { Satisfy } from "next/font/google";
 import "./globals.css";
 import StyledComponentRegistry from "@/lib/AntRegistry";
 import { Toaster } from "sonner";
-import { AuthProvider } from "./Providers";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const satisfy = Satisfy({
   subsets: ["latin"],
@@ -26,15 +26,15 @@ export const viewPort = {
 
 export default async function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${satisfy.variable}`}>
-        <AuthProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${satisfy.variable}`}>
           <StyledComponentRegistry>
             <Toaster richColors position="top-center" />
             {children}
           </StyledComponentRegistry>
-        </AuthProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
