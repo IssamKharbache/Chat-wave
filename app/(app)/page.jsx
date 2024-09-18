@@ -1,5 +1,12 @@
+import HomeView from "@/sections/HomeView";
+
+export const metadata = {
+  title: "Chat wave",
+  description: "Social media app to chat and interact with other friends",
+};
+
 const MainPage = () => {
-  return <h1>main page</h1>;
+  return <HomeView />;
 };
 
 export default MainPage;

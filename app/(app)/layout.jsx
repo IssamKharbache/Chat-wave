@@ -19,7 +19,6 @@ const HomeLayout = ({ children }) => {
             <Header />
             <div className={styles.container}>
               <SideBar />
-
               <div className={styles.body}>{children}</div>
             </div>
           </div>

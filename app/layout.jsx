@@ -3,6 +3,7 @@ import "./globals.css";
 import StyledComponentRegistry from "@/lib/AntRegistry";
 import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
+import QueryProvider from "@/lib/QueryProvider";
 
 const satisfy = Satisfy({
   subsets: ["latin"],
@@ -38,10 +39,12 @@ export default async function RootLayout({ children }) {
     >
       <html lang="en">
         <body className={`${satisfy.variable}`}>
-          <StyledComponentRegistry>
-            <Toaster richColors position="top-center" />
-            {children}
-          </StyledComponentRegistry>
+          <QueryProvider>
+            <StyledComponentRegistry>
+              <Toaster richColors position="top-center" />
+              {children}
+            </StyledComponentRegistry>
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>
