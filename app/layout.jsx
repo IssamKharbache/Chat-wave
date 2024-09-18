@@ -26,7 +26,16 @@ export const viewPort = {
 
 export default async function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        signIn: {
+          variables: { colorPrimary: "rgba(160, 84, 175, 0.88)" },
+        },
+        signUp: {
+          variables: { colorPrimary: "rgba(160, 84, 175, 0.88)" },
+        },
+      }}
+    >
       <html lang="en">
         <body className={`${satisfy.variable}`}>
           <StyledComponentRegistry>

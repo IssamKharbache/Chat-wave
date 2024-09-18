@@ -4,6 +4,7 @@ import styles from "./styles/header.module.css";
 import ThemeToggle from "./ThemeToggle";
 import Link from "next/link";
 import SideBarButton from "../side-bar/SideBarButton";
+import { UserButton } from "@clerk/nextjs";
 
 const Header = async () => {
   return (
@@ -22,6 +23,7 @@ const Header = async () => {
             {/* Theme button */}
             <ThemeToggle />
             {/* user profile */}
+            <UserButton afterSignOutUrl="/sign-in" />
           </Flex>
         </div>
       </Box>
