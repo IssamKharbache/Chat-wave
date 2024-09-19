@@ -2,13 +2,13 @@
 import { Avatar, Button, Flex, Image, Input, Spin, Typography } from "antd";
 import styles from "./post-gen.module.css";
 import { useUser } from "@clerk/nextjs";
-import Box from "../box/Box";
 import { useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import { IoClose } from "react-icons/io5";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPost } from "@/actions/post";
+import Box from "@/components/box/Box";
 
 const PostGenerator = () => {
   // clerk user

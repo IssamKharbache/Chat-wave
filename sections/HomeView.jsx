@@ -1,12 +1,13 @@
-import PostGenerator from "@/components/home/PostGenerator";
+import PostGenerator from "@/components/home/post/PostGenerator";
 import styles from "./styles/home-view.module.css";
+import Post from "@/components/home/post/Post";
 
 const HomeView = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.postsArea}>
         <PostGenerator />
-        <span>Posts</span>
+        <Post />
       </div>
       <div className={styles.right}>
         <span>Trending section</span>

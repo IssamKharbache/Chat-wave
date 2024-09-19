@@ -38,3 +38,54 @@ export const createPost = async (post) => {
     throw new Error("Failed creating a new post");
   }
 };
+
+export const getMyFeedPosts = async (lastCursor) => {
+  try {
+    const take = 5;
+    const posts = await db.post.findMany({
+      include: {
+        author: true,
+      },
+      take,
+      ...(lastCursor && {
+        skip: 1,
+        cursor: {
+          id: lastCursor,
+        },
+      }),
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    if (posts.length === 0) {
+      return {
+        data: [],
+        metaData: {
+          lastCursor: null,
+          hasMore: false,
+        },
+      };
+    }
+    const lastPostInResult = posts[posts.length - 1];
+    const cursor = lastPostInResult.id;
+    const morePosts = await db.post.findMany({
+      skip: 1,
+      cursor: {
+        id: cursor,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return {
+      data: posts,
+      metaData: {
+        lastCursor: cursor,
+        hasMore: morePosts.length > 0,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to get posts");
+  }
+};
