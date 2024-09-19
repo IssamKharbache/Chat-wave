@@ -5,8 +5,9 @@ import { Flex, Spin } from "antd";
 import Typography from "antd/es/typography/Typography";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import SinglePost from "./SinglePost";
 
-const Post = () => {
+const Post = ({ id = "all" }) => {
   //ref to handle last post view
   const { ref, inView } = useInView();
   const checkLastViewRef = (index, page) => {
@@ -28,7 +29,7 @@ const Post = () => {
     isFetchingNextPage,
     isFetching,
   } = useInfiniteQuery({
-    queryKey: "posts",
+    queryKey: ["posts", id],
     queryFn: ({ pageParam = "" }) => getMyFeedPosts(pageParam),
     getNextPageParam: (lastPage) => {
       return lastPage?.metaData?.lastCursor;
@@ -61,27 +62,12 @@ const Post = () => {
         {data?.pages.map((page) =>
           page?.data?.map((post, index) =>
             checkLastViewRef(index, page) ? (
-              <div
-                style={{
-                  width: "100%",
-                  backgroundColor: "blue",
-                  height: "30rem",
-                }}
-                key={index}
-                ref={ref}
-              >
-                <span>{post.postText}</span>
+              <div key={index} ref={ref}>
+                <SinglePost data={post} queryId={id} />
               </div>
             ) : (
-              <div
-                style={{
-                  width: "100%",
-                  backgroundColor: "blue",
-                  height: "30rem",
-                }}
-                key={post.id}
-              >
-                <span>{post.postText}</span>
+              <div key={post.id}>
+                <SinglePost data={post} queryId={id} />
               </div>
             )
           )

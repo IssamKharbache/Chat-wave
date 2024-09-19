@@ -45,6 +45,8 @@ export const getMyFeedPosts = async (lastCursor) => {
     const posts = await db.post.findMany({
       include: {
         author: true,
+        likes: true,
+        comments: true,
       },
       take,
       ...(lastCursor && {
@@ -87,5 +89,83 @@ export const getMyFeedPosts = async (lastCursor) => {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to get posts");
+  }
+};
+
+export const updatePostLike = async (postId, actionType) => {
+  try {
+    const { id: userId } = await currentUser();
+
+    //find the post
+    const post = await db.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        likes: true,
+      },
+    });
+    if (!post) {
+      return {
+        error: "Post not found",
+      };
+    }
+    //check if the user already liked the post
+    const liked = post.likes.find((like) => like.authorId == userId);
+    //if the user already liked the post, unlike it
+    if (liked) {
+      if (actionType === "like") {
+        return {
+          data: post,
+        };
+      }
+      //otherwise
+      else {
+        await db.like.delete({
+          where: {
+            id: liked.id,
+          },
+        });
+        console.log("Like deleted");
+      }
+    } else {
+      if (actionType === "unlike") {
+        return {
+          data: post,
+        };
+      } else {
+        //if user hasn't liked the post, like it
+        await db.like.create({
+          data: {
+            post: {
+              connect: {
+                id: postId,
+              },
+            },
+            author: {
+              connect: {
+                id: userId,
+              },
+            },
+          },
+        });
+        console.log("Post liked");
+      }
+    }
+    const updatedPost = await db.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        likes: true,
+      },
+    });
+    console.log("Update post", updatedPost);
+    return {
+      data: updatedPost,
+    };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to update post like state");
   }
 };
