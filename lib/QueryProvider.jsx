@@ -7,7 +7,8 @@ const QueryProvider = ({ children }) => {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false}>{children}</ReactQueryDevtools>
+      <ReactQueryDevtools initialIsOpen={false} />
+      {children}
     </QueryClientProvider>
   );
 };
