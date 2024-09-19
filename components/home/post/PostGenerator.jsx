@@ -110,8 +110,14 @@ const PostGenerator = () => {
                   className={styles.inputArea}
                   value={postText}
                   onChange={(e) => setPostText(e.target.value)}
-                  placeholder="What's on your mind?"
-                  style={{ resize: "none", height: 80, flex: 1 }}
+                  placeholder="What's on your mind ?"
+                  style={{
+                    resize: "none",
+                    height: 80,
+                    flex: 1,
+                    backgroundColor: "#c3a1cc",
+                    border: "2px solid #c9c2c1",
+                  }}
                 />
               </Flex>
               {/* show preview of the image or video */}

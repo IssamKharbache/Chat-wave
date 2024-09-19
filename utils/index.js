@@ -15,3 +15,18 @@ export const getFileTypeFromUrl = (url) => {
       return "Unknown type";
   }
 };
+
+export const updateQueryCacheLikes = (
+  postLikes,
+  postId,
+  userId,
+  actionType
+) => {
+  if (actionType === "like") {
+    return [...postLikes, { authorId: userId, postId }];
+  } else {
+    return postLikes.filter((like) => {
+      like.authorId !== userId;
+    });
+  }
+};

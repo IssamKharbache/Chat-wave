@@ -15,6 +15,7 @@ body{
 }
 :root{
     --primary:rgb(187, 113, 214);
+    --primary-hover:rgb(160, 84, 175);
     --text-color:rgba(160, 84, 175, 0.88);
     --primary-low:rgb(201, 151, 219);
     --xl-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px,

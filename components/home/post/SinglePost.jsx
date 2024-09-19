@@ -2,8 +2,10 @@ import Box from "@/components/box/Box";
 import styles from "./singlepost.module.css";
 import { Avatar, Flex, Image, Typography } from "antd";
 import dayjs from "dayjs";
-import { getFileTypeFromUrl } from "@/utils/getFileTypeFromUrl";
+import { getFileTypeFromUrl } from "@/utils";
 import LikeButton from "./LikeButton";
+import CommentButton from "./CommentButton";
+import CommentSection from "./CommentSection";
 
 const SinglePost = ({ data, queryId }) => {
   return (
@@ -62,8 +64,16 @@ const SinglePost = ({ data, queryId }) => {
               likes={data?.likes}
               queryId={queryId}
             />
-            <span>Comments</span>
+
+            {/* commnets */}
+            <CommentButton comments={data?.comments?.length} />
           </Flex>
+          {/* comment section  */}
+          <CommentSection
+            comments={data?.comments}
+            postId={data?.id}
+            queryId={queryId}
+          />
         </div>
       </Box>
     </div>

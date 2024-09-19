@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 import { uploadFile } from "./uploadFile";
 
+//create post function
 export const createPost = async (post) => {
   try {
     const { postText, media } = post;
@@ -38,7 +39,7 @@ export const createPost = async (post) => {
     throw new Error("Failed creating a new post");
   }
 };
-
+//get feed posts
 export const getMyFeedPosts = async (lastCursor) => {
   try {
     const take = 5;
@@ -46,7 +47,14 @@ export const getMyFeedPosts = async (lastCursor) => {
       include: {
         author: true,
         likes: true,
-        comments: true,
+        comments: {
+          include: {
+            author: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
       take,
       ...(lastCursor && {
@@ -91,7 +99,7 @@ export const getMyFeedPosts = async (lastCursor) => {
     throw new Error("Failed to get posts");
   }
 };
-
+//like and unlike post
 export const updatePostLike = async (postId, actionType) => {
   try {
     const { id: userId } = await currentUser();
@@ -160,12 +168,41 @@ export const updatePostLike = async (postId, actionType) => {
         likes: true,
       },
     });
-    console.log("Update post", updatedPost);
     return {
       data: updatedPost,
     };
   } catch (error) {
     console.log(error);
     throw new Error("Failed to update post like state");
+  }
+};
+
+//make a comment
+export const addComment = async (postId, comment) => {
+  try {
+    const { id: userId } = await currentUser();
+
+    const newComment = await db.comment.create({
+      data: {
+        comment,
+        post: {
+          connect: {
+            id: postId,
+          },
+        },
+        author: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+    console.log("Comment created", newComment);
+    return {
+      data: newComment,
+    };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to add a comment");
   }
 };
