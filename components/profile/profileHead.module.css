@@ -65,3 +65,18 @@
     gap: 0.5rem;
     
 }
+
+.right {
+  margin-top: 4rem;
+  position: relative;
+}
+
+.tabs{
+ position: absolute;
+ bottom: -1rem;
+ right: 0;
+}
+
+.tabs span {
+  user-select: none;
+}

@@ -1,4 +1,4 @@
-import { Button, Image, Skeleton, Spin, Typography } from "antd";
+import { Button, Flex, Image, Skeleton, Spin, Tabs, Typography } from "antd";
 import styles from "./profileHead.module.css";
 import { useEffect, useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
@@ -9,7 +9,28 @@ import { updateBanner } from "@/actions/user";
 import Box from "../box/Box";
 
 const { Text } = Typography;
-const ProfileHeader = ({ userId, userData, isLoading, isError }) => {
+const TABS = [
+  {
+    label: "Profile",
+    icon: "hugeicons:profile-02",
+  },
+  {
+    label: "Followers",
+    icon: "ph:heart-fill",
+  },
+  {
+    label: "Followings",
+    icon: "fluent:people-20-filled",
+  },
+];
+const ProfileHeader = ({
+  userId,
+  userData,
+  isLoading,
+  isError,
+  selectedTab,
+  setSelectedTab,
+}) => {
   //states to handle banner change
   const [bannerPreview, setBannerPreview] = useState(false);
 
@@ -19,7 +40,7 @@ const ProfileHeader = ({ userId, userData, isLoading, isError }) => {
   //user authenticated
   const { user } = useUser();
 
-  //
+  //use mutation to update the banner
   const { mutate, isPending } = useMutation({
     mutationFn: updateBanner,
     onSuccess: () => {
@@ -55,6 +76,7 @@ const ProfileHeader = ({ userId, userData, isLoading, isError }) => {
       setBanner(userData?.data?.banner_url);
     }
   }, [userData, setBanner]);
+
   return (
     <div className={styles.container}>
       {/* banner */}
@@ -131,7 +153,27 @@ const ProfileHeader = ({ userId, userData, isLoading, isError }) => {
             </div>
           </div>
           {/* right side */}
-          <div className={styles.right}>Right side</div>
+          <div className={styles.right}>
+            <div className={styles.tabs}>
+              <Tabs
+                defaultActiveKey={selectedTab}
+                onChange={(key) => setSelectedTab(key)}
+                centered
+                items={TABS.map((tab, i) => {
+                  const id = String(i + 1);
+                  return {
+                    key: id,
+                    label: (
+                      <Flex align="center" gap={".5rem"}>
+                        <Icon icon={tab.icon} width={"20px"} />
+                        <span className="typoSubtitle2">{tab.label}</span>
+                      </Flex>
+                    ),
+                  };
+                })}
+              />
+            </div>
+          </div>
         </div>
       </Box>
     </div>
