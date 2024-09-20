@@ -1,0 +1,15 @@
+.wrapper{
+    padding: 1.5rem 1rem;
+    border-radius: 1rem;
+    position: relative;
+    background-color: var(--primary-low);
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}

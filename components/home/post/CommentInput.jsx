@@ -69,6 +69,10 @@ const CommentInput = ({ postId, setExpanded, queryId }) => {
     onSettled: () => {
       queryClient.invalidateQueries(["posts"]);
     },
+    onSuccess: () => {
+      toast.success("Commented successfully");
+      setValue("");
+    },
   });
   return (
     <Flex className={styles.commentInput} gap={"1rem"} align="center">

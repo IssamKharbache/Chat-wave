@@ -19,9 +19,7 @@ const SinglePost = ({ data, queryId }) => {
               <Avatar size={40} src={data?.author?.image_url} />
               {/* name and post data */}
               <Flex vertical>
-                <Typography>
-                  {data?.author?.first_name} {data?.author?.last_name}
-                </Typography>
+                <Typography>{data?.author?.username}</Typography>
                 <Typography.Text
                   className="typoCaption"
                   type="secondary"

@@ -9,10 +9,14 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPost } from "@/actions/post";
 import Box from "@/components/box/Box";
-
+import { useSettingsContext } from "@/context/provider/settings-context";
+import cx from "classnames";
 const PostGenerator = () => {
   // clerk user
   const { user } = useUser();
+  const {
+    settings: { theme },
+  } = useSettingsContext();
   //handle file states
   const imageUploadRef = useRef();
   const videoInputRef = useRef();
@@ -115,7 +119,8 @@ const PostGenerator = () => {
                     resize: "none",
                     height: 80,
                     flex: 1,
-                    backgroundColor: "#c3a1cc",
+                    backgroundColor:
+                      theme === "dark" ? "rgb(84, 93, 105) " : "#c3a1cc",
                     border: "2px solid #c9c2c1",
                   }}
                 />

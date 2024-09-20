@@ -2,6 +2,8 @@
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 import { uploadFile } from "./uploadFile";
+import { checkPostForTrends } from "@/utils";
+import { NEXT_QUERY_PARAM_PREFIX } from "next/dist/lib/constants";
 
 //create post function
 export const createPost = async (post) => {
@@ -30,12 +32,15 @@ export const createPost = async (post) => {
         },
       },
     });
-    console.log(newPost);
+    const trends = checkPostForTrends(postText);
+    if (trends.length > 0) {
+      createTrends(trends, newPost.id);
+    }
     return {
       data: newPost,
     };
   } catch (error) {
-    console.log(e?.message);
+    console.log(error?.message);
     throw new Error("Failed creating a new post");
   }
 };
@@ -204,5 +209,43 @@ export const addComment = async (postId, comment) => {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to add a comment");
+  }
+};
+//create trends
+export const createTrends = async (trends, postId) => {
+  try {
+    const newTrends = await db.trend.createMany({
+      data: trends.map((trend) => ({
+        name: trend,
+        postId: postId,
+      })),
+    });
+    return {
+      data: newTrends,
+    };
+  } catch (error) {}
+};
+
+//get trends
+export const getPopularTrends = async () => {
+  try {
+    const trends = await db.trend.groupBy({
+      by: ["name"],
+      _count: {
+        name: true,
+      },
+      orderBy: {
+        _count: {
+          name: "desc",
+        },
+      },
+      take: 3,
+    });
+    return {
+      data: trends,
+    };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to get trends");
   }
 };

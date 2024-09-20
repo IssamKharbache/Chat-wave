@@ -6,7 +6,7 @@ const CommentButton = ({ comments }) => {
   return (
     <Button type="text" size="small">
       <Flex gap={"0.5rem"} align="center">
-        <Icon icon="ant-design:comment-outlined" width={"21px"} color="black" />
+        <Icon icon="ant-design:comment-outlined" width={"21px"} />
         <Typography.Text>
           {comments > 0 ? `${comments} Comments` : "Comment"}
         </Typography.Text>

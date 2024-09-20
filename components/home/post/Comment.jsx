@@ -5,7 +5,7 @@ import { Avatar, Flex, Typography } from "antd";
 import dayjs from "dayjs";
 
 import styles from "./commentsSection.module.css";
-
+import cx from "classnames";
 const Comment = ({ data }) => {
   const {
     settings: { theme },
@@ -21,12 +21,15 @@ const Comment = ({ data }) => {
           style={{ minWidth: "40px" }}
         />
         {/* person comment */}
-        <Flex vertical gap={"0.5rem"} flex={1} className={styles.comment}>
+        <Flex
+          vertical
+          gap={"0.5rem"}
+          flex={1}
+          className={cx(styles.comment, styles[theme])}
+        >
           {/* name and date */}
           <Flex align="center" justify="space-between">
-            <Typography.Text strong>
-              {data?.author?.first_name} {data?.author?.last_name}
-            </Typography.Text>
+            <Typography.Text strong>{data?.author?.username}</Typography.Text>
             <Typography.Text className="typoCaption" type="secondary" strong>
               {dayjs(data?.created_at).format("MMM DD, YYYY")}
             </Typography.Text>

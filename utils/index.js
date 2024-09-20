@@ -30,3 +30,26 @@ export const updateQueryCacheLikes = (
     });
   }
 };
+
+export const checkPostForTrends = (postText) => {
+  //split post text into words
+  const firstSplit = postText
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word.startsWith("#"))
+    .map((word) => word.toLowerCase());
+
+  let result = firstSplit;
+  // check if there are any words that have multiple hashtags
+  firstSplit.map((word) => {
+    const secondSplit = word.split("#");
+    if (secondSplit.length > 1) {
+      result = [...result, ...secondSplit.slice(1, secondSplit.length)].filter(
+        (el) => el !== word
+      );
+    }
+  });
+  // if array contains duplicates, remove them
+  result = [...new Set(result)];
+  return result;
+};

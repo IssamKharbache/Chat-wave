@@ -2,5 +2,9 @@
     background-color: #c3a1cc;
     border-radius: 1rem;
     padding: 1rem;
+    &.dark{
+      background:rgb(84, 93, 105) ;
+    }
     
 }
+
