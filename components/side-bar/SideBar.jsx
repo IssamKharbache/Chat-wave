@@ -11,7 +11,7 @@ import cx from "classnames";
 import { useSettingsContext } from "@/context/provider/settings-context";
 import SidebarContainer from "./SidebarContainer";
 import { useCallback, useEffect, useState } from "react";
-import { useClerk } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 const SideBar = () => {
   const {
@@ -21,6 +21,7 @@ const SideBar = () => {
   const pathName = usePathname();
   const [mounted, setMounted] = useState(false);
 
+  const { user } = useUser();
   //
   useEffect(() => {
     setMounted(true);
@@ -50,12 +51,16 @@ const SideBar = () => {
       >
         <div className={styles.wrapper}>
           <Box className={styles.container}>
-            {sideBarLinks.map((link, idx) => {
+            {sideBarLinks(user).map((link, idx) => {
               return (
                 <Link
                   className={cx(styles.link, isActive(link))}
                   key={idx}
-                  href={link.href}
+                  href={
+                    link.href === `/profile/${user?.id}`
+                      ? `${link.href}?person=${user?.firstName}`
+                      : link.href
+                  }
                 >
                   <Typography>
                     <Icon

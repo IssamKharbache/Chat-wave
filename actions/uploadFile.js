@@ -27,3 +27,21 @@ export const uploadFile = async (file, folder) => {
     };
   }
 };
+
+export const deleteFile = async (publicId) => {
+  try {
+    const res = await cld.v2.uploader.destroy(publicId, (error, result) => {
+      if (error) {
+        console.log("Error while deleting file", publicId);
+      } else {
+        console.log("File deleted successfully", publicId);
+        return;
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    return {
+      error: "Failed to delete file",
+    };
+  }
+};

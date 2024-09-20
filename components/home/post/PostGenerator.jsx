@@ -37,7 +37,7 @@ const PostGenerator = () => {
     const file = e.target.files[0];
     //limit file size to 5mb
     if (file && file.size > 5 * 1024 * 1024) {
-      alert("File size should be less than 5mb");
+      toast.error("Image size should be less than 5MB");
       return;
     }
     if (
