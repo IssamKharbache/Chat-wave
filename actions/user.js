@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { deleteFile, uploadFile } from "./uploadFile";
+import { currentUser } from "@clerk/nextjs";
 
 //create user
 export const createUser = async (user) => {
@@ -127,6 +128,101 @@ export const updateBanner = async (params) => {
       },
     });
     console.log("Banner updated successfully");
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+//get all followers and following
+export const getAllFollowersAndFollowing = async (id) => {
+  try {
+    const followers = await db.follow.findMany({
+      where: {
+        followingId: id,
+      },
+      include: {
+        follower: true,
+      },
+    });
+    const following = await db.follow.findMany({
+      where: {
+        followerId: id,
+      },
+      include: {
+        following: true,
+      },
+    });
+    return {
+      followers,
+      following,
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+//get follow suggestions
+
+export const getFollowSuggestions = async () => {
+  try {
+    const loggedInUser = await currentUser();
+
+    const following = await db.follow.findMany({
+      where: {
+        followerId: loggedInUser.id,
+      },
+    });
+    //get the ids that the logged in user is following
+    const followingIds = following.map((following) => following.followingId);
+    const suggestions = await db.user.findMany({
+      where: {
+        AND: [
+          { id: { not: loggedInUser?.id } }, //exclude the logged in user
+          { id: { notIn: followingIds } }, // exclude the users that the logged in user is following
+        ],
+      },
+    });
+
+    return suggestions;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateFollow = async (params) => {
+  try {
+    const { id, type } = params;
+    //type can be "follow or unfollow"
+    const loggedInUser = await currentUser();
+
+    if (type === "follow") {
+      await db.follow.create({
+        data: {
+          follower: {
+            connect: {
+              id: loggedInUser?.id,
+            },
+          },
+          following: {
+            connect: {
+              id,
+            },
+          },
+        },
+      });
+      console.log("followed");
+    } else if (type === "unfollow") {
+      await db.follow.deleteMany({
+        where: {
+          followerId: loggedInUser?.id,
+          followingId: id,
+        },
+      });
+      console.log("unfollowed");
+    }
   } catch (error) {
     console.log(error);
     throw error;

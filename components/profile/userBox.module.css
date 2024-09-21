@@ -1,0 +1,29 @@
+.container {
+    box-shadow: var(--xl-shadow);
+    border-radius: .5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        
+        .details {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .right{
+        .button{
+            border: 2px solid rgba(217, 221, 226, 0.32);
+        }
+        .button:hover{
+            background-color: rgba(172, 120, 221, 0.32);
+        }
+    }
+}
+
