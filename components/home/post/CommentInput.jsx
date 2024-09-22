@@ -28,10 +28,10 @@ const CommentInput = ({ postId, setExpanded, queryId }) => {
       queryClient.setQueriesData(["posts", queryId], (old) => {
         return {
           ...old,
-          pages: old.pages.map((page) => {
+          pages: old?.pages?.map((page) => {
             return {
               ...page,
-              data: page.data.map((post) => {
+              data: page?.data?.map((post) => {
                 if (post.id === postId) {
                   return {
                     ...post,
@@ -64,6 +64,7 @@ const CommentInput = ({ postId, setExpanded, queryId }) => {
     },
     onError: (err, variables, context) => {
       toast.error("Failed to comment");
+      console.log("Failed to comment", err);
       queryClient.setQueriesData(["posts"], context.prevPosts);
     },
     onSettled: () => {

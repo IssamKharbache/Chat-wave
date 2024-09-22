@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs";
 import { uploadFile } from "./uploadFile";
 import { checkPostForTrends } from "@/utils";
 import { NEXT_QUERY_PARAM_PREFIX } from "next/dist/lib/constants";
+import { getAllFollowersAndFollowing } from "./user";
 
 //create post function
 export const createPost = async (post) => {
@@ -44,9 +45,86 @@ export const createPost = async (post) => {
     throw new Error("Failed creating a new post");
   }
 };
+
+//
+export const getPosts = async (lastCursor, id) => {
+  try {
+    // const { id: userId } = await currentUser();
+    const take = 5;
+    const where = id !== "all" ? { author: { id } } : {};
+    const posts = await db.post.findMany({
+      include: {
+        author: true,
+        likes: true,
+        comments: {
+          include: {
+            author: true,
+          },
+        },
+      },
+      where,
+      take,
+      ...(lastCursor && {
+        skip: 1,
+        cursor: {
+          id: lastCursor,
+        },
+      }),
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    if (posts.length === 0) {
+      return {
+        data: [],
+        metaData: {
+          lastCursor: null,
+          hasMore: false,
+        },
+      };
+    }
+    const lastPostInResults = posts[posts.length - 1];
+    const cursor = lastPostInResults?.id;
+
+    const morePosts = await db.post.findMany({
+      where,
+      take,
+      skip: 1,
+      cursor: {
+        id: cursor,
+      },
+    });
+    return {
+      data: posts,
+      metaData: {
+        lastCursor: cursor,
+        hasMore: morePosts.length > 0,
+      },
+    };
+  } catch (e) {
+    console.log(e);
+    throw Error("Failed to fetch posts");
+  }
+};
+
 //get feed posts
 export const getMyFeedPosts = async (lastCursor) => {
   try {
+    const { id } = await currentUser();
+    const { followers, following } = await getAllFollowersAndFollowing(id);
+    const followingIds = following.map((person) => person.followingId);
+
+    //combine the list of ids and include yourt own id
+    const userIds = [...new Set([...followingIds, id])];
+
+    const where = {
+      author: {
+        id: {
+          in: userIds,
+        },
+      },
+    };
     const take = 5;
     const posts = await db.post.findMany({
       include: {
@@ -61,6 +139,7 @@ export const getMyFeedPosts = async (lastCursor) => {
           },
         },
       },
+      where,
       take,
       ...(lastCursor && {
         skip: 1,
@@ -84,6 +163,8 @@ export const getMyFeedPosts = async (lastCursor) => {
     const lastPostInResult = posts[posts.length - 1];
     const cursor = lastPostInResult.id;
     const morePosts = await db.post.findMany({
+      where,
+      take,
       skip: 1,
       cursor: {
         id: cursor,

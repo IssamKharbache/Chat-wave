@@ -1,5 +1,5 @@
 "use client";
-import { getMyFeedPosts } from "@/actions/post";
+import { getMyFeedPosts, getPosts } from "@/actions/post";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Flex, Skeleton, Spin } from "antd";
 import Typography from "antd/es/typography/Typography";
@@ -30,7 +30,8 @@ const Post = ({ id = "all" }) => {
     isFetching,
   } = useInfiniteQuery({
     queryKey: ["posts", id],
-    queryFn: ({ pageParam = "" }) => getMyFeedPosts(pageParam),
+    queryFn: ({ pageParam = "" }) =>
+      id === "all" ? getMyFeedPosts(pageParam) : getPosts(pageParam, id),
     getNextPageParam: (lastPage) => {
       return lastPage?.metaData?.lastCursor;
     },

@@ -130,15 +130,19 @@ const UserSuggestionBox = ({ data, type, loggedInUser }) => {
             </Button>
           ) : (
             <Button
-              onClick={() => mutate({ id: personId, type: "unfollow" })}
               type="text"
               size="small"
-              style={{ padding: "1rem" }}
+              onClick={() =>
+                mutate({
+                  id: personId,
+                  type: "unfollow",
+                })
+              }
             >
-              <Flex gap={"10px"} align="center">
-                <Icon icon="charm:tick" width={18} color="#3db66a" />
-                <Typography.Text type="secondary">
-                  {isPending ? "Loading..." : "Unfollow"}
+              <Flex gap={10} align="center">
+                <Icon icon={"charm:tick"} width={18} color="#2e8f51" />
+                <Typography.Text strong style={{ color: "#2e8f51" }}>
+                  {isPending ? "Loading..." : "Followed"}
                 </Typography.Text>
               </Flex>
             </Button>
