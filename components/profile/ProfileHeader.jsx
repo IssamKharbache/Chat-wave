@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { updateBanner } from "@/actions/user";
 import Box from "../box/Box";
+import FollowButton from "./FollowButton";
 
 const { Text } = Typography;
 const TABS = [

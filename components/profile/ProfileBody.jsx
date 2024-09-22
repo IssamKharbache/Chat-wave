@@ -4,6 +4,7 @@ import styles from "@/sections/profile/profileView.module.css";
 import PostGenerator from "../home/post/PostGenerator";
 import Post from "../home/post/Post";
 import FollowSuggestions from "./FollowSuggestions";
+import FollowButton from "./FollowButton";
 
 const ProfileBody = ({ userId }) => {
   const { user: currentUser } = useUser();
@@ -13,6 +14,7 @@ const ProfileBody = ({ userId }) => {
       {/* left */}
       <div className={styles.left}>
         <div className={styles.sticky}>
+          {!isCurrentUser && <FollowButton id={userId} />}
           <FollowInfoBox id={userId} />
           <FollowSuggestions />
         </div>

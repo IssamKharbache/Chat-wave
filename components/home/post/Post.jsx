@@ -1,7 +1,7 @@
 "use client";
 import { getMyFeedPosts } from "@/actions/post";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Flex, Spin } from "antd";
+import { Flex, Skeleton, Spin } from "antd";
 import Typography from "antd/es/typography/Typography";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -48,10 +48,14 @@ const Post = ({ id = "all" }) => {
   // check if we loading data
   if (isLoading) {
     return (
-      <Flex vertical align="center" gap={"1rem"}>
-        <Spin>
-          <Typography>Loading...</Typography>
-        </Spin>
+      <Flex vertical gap={"1rem"}>
+        <Skeleton
+          avatar={{ size: "large" }}
+          active
+          style={{ width: "100%", height: "50%" }}
+          paragraph={{ rows: 1 }}
+        />
+        <Skeleton.Image active style={{ height: "450px", width: "100%" }} />
       </Flex>
     );
   }
@@ -73,10 +77,14 @@ const Post = ({ id = "all" }) => {
           )
         )}
         {(isLoading || isFetchingNextPage || isFetching) && (
-          <Flex vertical align="center" gap={"1rem"}>
-            <Spin>
-              <Typography>Loading...</Typography>
-            </Spin>
+          <Flex vertical gap={"1rem"}>
+            <Skeleton
+              avatar={{ size: "large" }}
+              active
+              style={{ width: "100%", height: "50%" }}
+              paragraph={{ rows: 1 }}
+            />
+            <Skeleton.Image active style={{ height: "450px", width: "100%" }} />
           </Flex>
         )}
       </Flex>

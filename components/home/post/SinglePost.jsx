@@ -6,6 +6,7 @@ import { getFileTypeFromUrl } from "@/utils";
 import LikeButton from "./LikeButton";
 import CommentButton from "./CommentButton";
 import CommentSection from "./CommentSection";
+import Link from "next/link";
 
 const SinglePost = ({ data, queryId }) => {
   return (
@@ -16,7 +17,13 @@ const SinglePost = ({ data, queryId }) => {
           <Flex align="center" justify="space-between">
             {/* left side */}
             <Flex gap={"1rem"} align="center">
-              <Avatar size={40} src={data?.author?.image_url} />
+              <Link
+                passHref
+                href={`/profile/${data?.author?.id}?person=${data?.author?.first_name}`}
+              >
+                <Avatar size={40} src={data?.author?.image_url} />
+              </Link>
+
               {/* name and post data */}
               <Flex vertical>
                 <Typography>{data?.author?.username}</Typography>
